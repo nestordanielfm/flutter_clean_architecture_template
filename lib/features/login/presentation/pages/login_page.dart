@@ -1,38 +1,65 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobx/mobx.dart';
 import 'package:template_app/core/router/app_router.gr.dart';
-import 'package:template_app/features/login/presentation/bloc/login_bloc.dart';
-import 'package:template_app/features/login/presentation/bloc/login_state.dart';
+import 'package:template_app/features/login/presentation/store/login_store.dart';
 import 'package:template_app/features/login/presentation/widgets/login_form.dart';
 import 'package:template_app/injection/injection.dart';
 
 @RoutePage()
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<LoginBloc>(),
-      child: Scaffold(
-        appBar: AppBar(title: const Text('Login')),
-        body: BlocListener<LoginBloc, LoginState>(
-          listener: (context, state) {
-            if (state.isSuccess) {
-              context.router.replace(const HomeRoute());
-            } else if (state.isError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.failure?.message ?? 'Login failed'),
-                  backgroundColor: Colors.red,
-                ),
-              );
-            }
-          },
-          child: const LoginForm(),
-        ),
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  late final LoginStore _loginStore;
+  late final List<ReactionDisposer> _disposers;
+
+  @override
+  void initState() {
+    super.initState();
+    _loginStore = getIt<LoginStore>();
+    _disposers = [
+      reaction(
+        (_) => _loginStore.isSuccess,
+        (bool isSuccess) {
+          if (isSuccess) {
+            context.router.replace(const HomeRoute());
+          }
+        },
       ),
+      reaction(
+        (_) => _loginStore.failure,
+        (failure) {
+          if (failure != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(failure.message),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        },
+      ),
+    ];
+  }
+
+  @override
+  void dispose() {
+    for (final disposer in _disposers) {
+      disposer();
+    }
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Login')),
+      body: LoginForm(loginStore: _loginStore),
     );
   }
 }

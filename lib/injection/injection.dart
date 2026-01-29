@@ -5,17 +5,17 @@ import 'package:template_app/features/detail/data/datasources/pokemon_detail_api
 import 'package:template_app/features/detail/data/repositories/pokemon_detail_repository_impl.dart';
 import 'package:template_app/features/detail/domain/repositories/pokemon_detail_repository.dart';
 import 'package:template_app/features/detail/domain/usecases/get_pokemon_detail_usecase.dart';
-import 'package:template_app/features/detail/presentation/bloc/detail_bloc.dart';
+import 'package:template_app/features/detail/presentation/store/detail_store.dart';
 import 'package:template_app/features/home/data/datasources/pokemon_api.dart';
 import 'package:template_app/features/home/data/repositories/pokemon_repository_impl.dart';
 import 'package:template_app/features/home/domain/repositories/pokemon_repository.dart';
 import 'package:template_app/features/home/domain/usecases/get_pokemon_list_usecase.dart';
-import 'package:template_app/features/home/presentation/bloc/home_bloc.dart';
+import 'package:template_app/features/home/presentation/store/home_store.dart';
 import 'package:template_app/features/login/data/datasources/auth_api.dart';
 import 'package:template_app/features/login/data/repositories/auth_repository_impl.dart';
 import 'package:template_app/features/login/domain/repositories/auth_repository.dart';
 import 'package:template_app/features/login/domain/usecases/login_usecase.dart';
-import 'package:template_app/features/login/presentation/bloc/login_bloc.dart';
+import 'package:template_app/features/login/presentation/store/login_store.dart';
 
 final getIt = GetIt.instance;
 
@@ -32,7 +32,7 @@ void configureDependencies() {
   getIt.registerLazySingleton<LoginUseCase>(
     () => LoginUseCase(getIt<AuthRepository>()),
   );
-  getIt.registerFactory<LoginBloc>(() => LoginBloc(getIt<LoginUseCase>()));
+  getIt.registerFactory<LoginStore>(() => LoginStore(getIt<LoginUseCase>()));
 
   // Home feature
   getIt.registerLazySingleton<PokemonApi>(() => PokemonApi(getIt<Dio>()));
@@ -42,8 +42,8 @@ void configureDependencies() {
   getIt.registerLazySingleton<GetPokemonListUseCase>(
     () => GetPokemonListUseCase(getIt<PokemonRepository>()),
   );
-  getIt.registerFactory<HomeBloc>(
-    () => HomeBloc(getIt<GetPokemonListUseCase>()),
+  getIt.registerFactory<HomeStore>(
+    () => HomeStore(getIt<GetPokemonListUseCase>()),
   );
 
   // Detail feature
@@ -56,7 +56,7 @@ void configureDependencies() {
   getIt.registerLazySingleton<GetPokemonDetailUseCase>(
     () => GetPokemonDetailUseCase(getIt<PokemonDetailRepository>()),
   );
-  getIt.registerFactory<DetailBloc>(
-    () => DetailBloc(getIt<GetPokemonDetailUseCase>()),
+  getIt.registerFactory<DetailStore>(
+    () => DetailStore(getIt<GetPokemonDetailUseCase>()),
   );
 }

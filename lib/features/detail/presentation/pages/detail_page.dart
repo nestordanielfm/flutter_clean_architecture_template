@@ -1,55 +1,63 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:template_app/features/detail/presentation/bloc/detail_bloc.dart';
-import 'package:template_app/features/detail/presentation/bloc/detail_event.dart';
-import 'package:template_app/features/detail/presentation/bloc/detail_state.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:template_app/features/detail/presentation/store/detail_store.dart';
 import 'package:template_app/injection/injection.dart';
 
 @RoutePage()
-class DetailPage extends StatelessWidget {
+class DetailPage extends StatefulWidget {
   final int pokemonId;
 
   const DetailPage({super.key, @PathParam('id') required this.pokemonId});
 
   @override
+  State<DetailPage> createState() => _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> {
+  late final DetailStore _detailStore;
+
+  @override
+  void initState() {
+    super.initState();
+    _detailStore = getIt<DetailStore>();
+    _detailStore.loadPokemonDetail(widget.pokemonId);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<DetailBloc>()..add(LoadPokemonDetail(pokemonId)),
-      child: Scaffold(
-        appBar: AppBar(title: const Text('Pokémon Detail')),
-        body: BlocBuilder<DetailBloc, DetailState>(
-          builder: (context, state) {
-            if (state.isLoading) {
-              return const Center(child: CircularProgressIndicator());
-            }
+    return Scaffold(
+      appBar: AppBar(title: const Text('Pokémon Detail')),
+      body: Observer(
+        builder: (context) {
+          if (_detailStore.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-            if (state.isError) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      state.failure?.message ?? 'Error loading Pokémon details',
-                      style: const TextStyle(color: Colors.red),
-                    ),
-                    const SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: () {
-                        context.read<DetailBloc>().add(
-                          LoadPokemonDetail(pokemonId),
-                        );
-                      },
-                      child: const Text('Retry'),
-                    ),
-                  ],
-                ),
-              );
-            }
+          if (_detailStore.isError) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    _detailStore.failure?.message ?? 'Error loading Pokémon details',
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      _detailStore.loadPokemonDetail(widget.pokemonId);
+                    },
+                    child: const Text('Retry'),
+                  ),
+                ],
+              ),
+            );
+          }
 
-            if (state.isSuccess && state.pokemonDetail != null) {
-              final pokemon = state.pokemonDetail!;
-              return SingleChildScrollView(
+          if (_detailStore.isSuccess && _detailStore.pokemonDetail != null) {
+            final pokemon = _detailStore.pokemonDetail!;
+            return SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -143,11 +151,10 @@ class DetailPage extends StatelessWidget {
                   ],
                 ),
               );
-            }
+          }
 
-            return const Center(child: Text('No data available'));
-          },
-        ),
+          return const Center(child: Text('No data available'));
+        },
       ),
     );
   }

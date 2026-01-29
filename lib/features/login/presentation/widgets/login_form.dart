@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:template_app/features/login/presentation/bloc/login_bloc.dart';
-import 'package:template_app/features/login/presentation/bloc/login_event.dart';
-import 'package:template_app/features/login/presentation/bloc/login_state.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:template_app/features/login/presentation/store/login_store.dart';
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
+  final LoginStore loginStore;
+
+  const LoginForm({super.key, required this.loginStore});
 
   @override
   State<LoginForm> createState() => _LoginFormState();
@@ -25,8 +25,8 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LoginBloc, LoginState>(
-      builder: (context, state) {
+    return Observer(
+      builder: (context) {
         return Padding(
           padding: const EdgeInsets.all(16.0),
           child: Form(
@@ -41,7 +41,7 @@ class _LoginFormState extends State<LoginForm> {
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.person),
                   ),
-                  enabled: !state.isLoading,
+                  enabled: !widget.loginStore.isLoading,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter username';
@@ -58,7 +58,7 @@ class _LoginFormState extends State<LoginForm> {
                     prefixIcon: Icon(Icons.lock),
                   ),
                   obscureText: true,
-                  enabled: !state.isLoading,
+                  enabled: !widget.loginStore.isLoading,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter password';
@@ -71,19 +71,17 @@ class _LoginFormState extends State<LoginForm> {
                   width: double.infinity,
                   height: 48,
                   child: ElevatedButton(
-                    onPressed: state.isLoading
+                    onPressed: widget.loginStore.isLoading
                         ? null
                         : () {
                             if (_formKey.currentState!.validate()) {
-                              context.read<LoginBloc>().add(
-                                LoginSubmitted(
-                                  username: _usernameController.text,
-                                  password: _passwordController.text,
-                                ),
+                              widget.loginStore.login(
+                                _usernameController.text,
+                                _passwordController.text,
                               );
                             }
                           },
-                    child: state.isLoading
+                    child: widget.loginStore.isLoading
                         ? const CircularProgressIndicator()
                         : const Text('Login'),
                   ),
