@@ -2,18 +2,18 @@
 
 A production-ready Flutter template implementing **Clean Architecture**, **BLoC pattern**, and **SOLID principles** with a complete Login → Home → Detail flow.
 
-## 🎯 Features
+## Features
 
-- ✅ **Feature-based Clean Architecture** (Domain, Data, Presentation layers)
-- ✅ **BLoC State Management** with composition-based states
-- ✅ **Dependency Injection** with GetIt
-- ✅ **API Integration** with Retrofit + Dio
-- ✅ **Type-safe Navigation** with AutoRoute
-- ✅ **Error Handling** with Dartz (Either pattern)
-- ✅ **Environment Configuration** (dev/prod)
-- ✅ **Unit Tests** for UseCases and BLoCs (using mocktail & bloc_test)
+- **Feature-based Clean Architecture** (Domain, Data, Presentation layers)
+- **BLoC State Management** with composition-based states
+- **Dependency Injection** with GetIt
+- **API Integration** with Retrofit + Dio
+- **Type-safe Navigation** with AutoRoute
+- **Error Handling** with Dartz (Either pattern)
+- **Environment Configuration** (dev/prod)
+- **Unit Tests** for UseCases and BLoCs (using mocktail & bloc_test)
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 lib/
@@ -30,7 +30,7 @@ lib/
 └── main.dart
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Install Dependencies
 ```bash
@@ -59,7 +59,7 @@ flutter test
 flutter test --coverage
 ```
 
-## 🔐 Login Credentials
+## Login Credentials
 
 The app uses [DummyJSON API](https://dummyjson.com/) for authentication.
 
@@ -69,13 +69,13 @@ The app uses [DummyJSON API](https://dummyjson.com/) for authentication.
 
 [See more users →](https://dummyjson.com/users)
 
-## 📱 App Flow
+## App Flow
 
 1. **Login Page** → Authenticate with DummyJSON API
 2. **Home Page** → View list of Pokémon (from PokéAPI)
 3. **Detail Page** → View detailed Pokémon information
 
-## 🧪 Testing Strategy
+## Testing Strategy
 
 The template includes comprehensive tests:
 
@@ -89,7 +89,7 @@ flutter test
 # Output: 00:04 +8: All tests passed!
 ```
 
-## 🛠️ Development Commands
+## Development Commands
 
 ```bash
 # Code generation (watch mode)
@@ -108,7 +108,7 @@ flutter build apk --dart-define=ENV=prod
 flutter build ios --dart-define=ENV=prod
 ```
 
-## 📦 Key Dependencies
+## Key Dependencies
 
 | Package | Purpose |
 |---------|---------|
@@ -120,12 +120,12 @@ flutter build ios --dart-define=ENV=prod
 | `equatable` | Value equality |
 | `mocktail` + `bloc_test` | Testing |
 
-## 🌐 APIs Used
+## APIs Used
 
 - **Auth API**: https://dummyjson.com/auth/login
 - **Pokémon API**: https://pokeapi.co/api/v2
 
-## 📚 Project Structure Highlights
+## Project Structure Highlights
 
 ### Each feature follows Clean Architecture:
 
@@ -159,7 +159,7 @@ class LoginState extends Equatable {
 }
 ```
 
-## 🎨 UI Features
+## UI Features
 
 - Material Design 3
 - Loading states with CircularProgressIndicator
@@ -176,7 +176,7 @@ class LoginState extends Equatable {
 - All generated files (*.g.dart, *.gr.dart) are gitignored
 - Run `build_runner` after pulling changes that modify models/APIs
 
-## 🤝 Contributing
+## Contributing
 
 This is a template project. Feel free to:
 - Add more features following the same architecture
@@ -184,10 +184,8 @@ This is a template project. Feel free to:
 - Improve UI/UX
 - Add more environment configurations
 
-## 📄 License
+## License
 
 This template is free to use for any purpose.
 
 ---
-
-**Built with** ❤️ **following Clean Architecture principles**
