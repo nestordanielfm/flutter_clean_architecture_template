@@ -4,9 +4,9 @@ import 'package:template_app/features/episodes/data/models/seasons_page_response
 
 part 'episodes_api.g.dart';
 
-@RestApi(baseUrl: 'https://futuramaapi.com/api')
+@RestApi()
 abstract class EpisodesApi {
-  factory EpisodesApi(Dio dio) = _EpisodesApi;
+  factory EpisodesApi(Dio dio, {String? baseUrl}) = _EpisodesApi;
 
   @GET('/seasons')
   Future<SeasonsPageResponse> getSeasons(

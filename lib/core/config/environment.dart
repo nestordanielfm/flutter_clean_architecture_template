@@ -1,3 +1,5 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 enum Environment { dev, prod }
 
 class EnvironmentConfig {
@@ -11,17 +13,23 @@ class EnvironmentConfig {
   static bool get isDev => _environment == Environment.dev;
   static bool get isProd => _environment == Environment.prod;
 
-  static String get baseUrl {
-    switch (_environment) {
-      case Environment.dev:
-        return 'https://dummyjson.com';
-      case Environment.prod:
-        return 'https://api.production.com'; // Replace with actual prod URL
-    }
-  }
+  // API URLs
+  static String get futuramaApiUrl =>
+      dotenv.get('FUTURAMA_API_URL', fallback: 'https://futuramaapi.com/api');
 
-  static String get pokemonBaseUrl => 'https://pokeapi.co/api/v2';
+  // Network Configuration
+  static Duration get connectionTimeout => Duration(
+    seconds: int.parse(dotenv.get('CONNECTION_TIMEOUT', fallback: '30')),
+  );
 
-  static Duration get connectionTimeout => const Duration(seconds: 30);
-  static Duration get receiveTimeout => const Duration(seconds: 30);
+  static Duration get receiveTimeout => Duration(
+    seconds: int.parse(dotenv.get('RECEIVE_TIMEOUT', fallback: '30')),
+  );
+
+  // Feature Flags
+  static bool get enableLogging =>
+      dotenv.get('ENABLE_LOGGING', fallback: 'false').toLowerCase() == 'true';
+
+  static bool get enableMockData =>
+      dotenv.get('ENABLE_MOCK_DATA', fallback: 'false').toLowerCase() == 'true';
 }

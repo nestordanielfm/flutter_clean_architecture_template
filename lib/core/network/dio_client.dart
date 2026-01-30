@@ -17,15 +17,17 @@ class DioClient {
     );
 
     // Add interceptors
-    dio.interceptors.add(
-      LogInterceptor(
-        requestBody: EnvironmentConfig.isDev,
-        responseBody: EnvironmentConfig.isDev,
-        error: true,
-        requestHeader: EnvironmentConfig.isDev,
-        responseHeader: false,
-      ),
-    );
+    if (EnvironmentConfig.enableLogging) {
+      dio.interceptors.add(
+        LogInterceptor(
+          requestBody: EnvironmentConfig.isDev,
+          responseBody: EnvironmentConfig.isDev,
+          error: true,
+          requestHeader: EnvironmentConfig.isDev,
+          responseHeader: false,
+        ),
+      );
+    }
 
     // Add auth interceptor if needed
     dio.interceptors.add(AuthInterceptor());
