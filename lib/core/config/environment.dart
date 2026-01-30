@@ -17,6 +17,11 @@ class EnvironmentConfig {
   static String get futuramaApiUrl =>
       dotenv.get('FUTURAMA_API_URL', fallback: 'https://futuramaapi.com/api');
 
+  static String get omdbApiUrl =>
+      dotenv.get('OMDB_API_URL', fallback: 'http://www.omdbapi.com');
+
+  static String get omdbApiKey => dotenv.get('OMDB_API_KEY', fallback: '');
+
   // Network Configuration
   static Duration get connectionTimeout => Duration(
     seconds: int.parse(dotenv.get('CONNECTION_TIMEOUT', fallback: '30')),

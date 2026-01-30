@@ -101,15 +101,15 @@ class _EpisodesPageState extends State<EpisodesPage> {
                     child: Text(
                       'Season ${season.id}',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onPrimaryContainer,
-                          ),
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      ),
                     ),
                   ),
-                  ...season.episodes
-                      .map((episode) => EpisodeListItem(episode: episode)),
+                  ...season.episodes.map(
+                    (episode) =>
+                        EpisodeListItem(episode: episode, season: season.id),
+                  ),
                 ],
               );
             },

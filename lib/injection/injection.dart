@@ -2,6 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:template_app/core/config/environment.dart';
 import 'package:template_app/core/network/dio_client.dart';
+import 'package:template_app/features/episode_detail/data/datasources/omdb_api.dart';
+import 'package:template_app/features/episode_detail/data/repositories/episode_detail_repository_impl.dart';
+import 'package:template_app/features/episode_detail/domain/repositories/episode_detail_repository.dart';
+import 'package:template_app/features/episode_detail/domain/usecases/get_episode_detail_usecase.dart';
+import 'package:template_app/features/episode_detail/presentation/store/episode_detail_store.dart';
 import 'package:template_app/features/episodes/data/datasources/episodes_api.dart';
 import 'package:template_app/features/episodes/data/repositories/episodes_repository_impl.dart';
 import 'package:template_app/features/episodes/domain/repositories/episodes_repository.dart';
@@ -27,5 +32,19 @@ void configureDependencies() {
   );
   getIt.registerFactory<EpisodesStore>(
     () => EpisodesStore(getIt<GetSeasonsUseCase>()),
+  );
+
+  // Episode Detail feature
+  getIt.registerLazySingleton<OmdbApi>(
+    () => OmdbApi(getIt<Dio>(), baseUrl: EnvironmentConfig.omdbApiUrl),
+  );
+  getIt.registerLazySingleton<EpisodeDetailRepository>(
+    () => EpisodeDetailRepositoryImpl(getIt<OmdbApi>()),
+  );
+  getIt.registerLazySingleton<GetEpisodeDetailUseCase>(
+    () => GetEpisodeDetailUseCase(getIt<EpisodeDetailRepository>()),
+  );
+  getIt.registerFactory<EpisodeDetailStore>(
+    () => EpisodeDetailStore(getIt<GetEpisodeDetailUseCase>()),
   );
 }
