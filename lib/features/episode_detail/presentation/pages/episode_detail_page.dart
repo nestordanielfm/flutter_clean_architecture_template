@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:template_app/core/theme/app_theme.dart';
 import 'package:template_app/features/episode_detail/presentation/store/episode_detail_store.dart';
 import 'package:template_app/features/episode_detail/presentation/widgets/episode_detail_content.dart';
 import 'package:template_app/injection/injection.dart';
@@ -49,7 +50,7 @@ class _EpisodeDetailPageState extends State<EpisodeDetailPage> {
                   const Icon(
                     Icons.error_outline,
                     size: 64,
-                    color: Color(0xFFFF6B35),
+                    color: AppColors.error,
                   ),
                   const SizedBox(height: 16),
                   Text(

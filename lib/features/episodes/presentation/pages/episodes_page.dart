@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:template_app/core/theme/app_theme.dart';
 import 'package:template_app/features/episodes/presentation/store/episodes_store.dart';
 import 'package:template_app/features/episodes/presentation/widgets/episode_list_item.dart';
 import 'package:template_app/features/episodes/presentation/widgets/season_shimmer.dart';
@@ -60,12 +61,12 @@ class _EpisodesPageState extends State<EpisodesPage> {
                   const Icon(
                     Icons.error_outline,
                     size: 64,
-                    color: Color(0xFFFF6B35),
+                    color: AppColors.error,
                   ),
                   const SizedBox(height: 16),
                   Text(
                     _store.failure?.message ?? 'Error loading episodes',
-                    style: const TextStyle(color: Color(0xFFFF6B35)),
+                    style: const TextStyle(color: AppColors.error),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 16),

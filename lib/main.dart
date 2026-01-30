@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:template_app/core/config/environment.dart';
 import 'package:template_app/core/router/app_router.dart';
+import 'package:template_app/core/theme/app_theme.dart';
 import 'package:template_app/injection/injection.dart';
 
 Future<void> main() async {
@@ -29,12 +30,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Template App',
+      title: 'Futurama App',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: AppTheme.theme,
       routerConfig: _appRouter.config(),
     );
   }

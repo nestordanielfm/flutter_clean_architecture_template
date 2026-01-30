@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:template_app/core/theme/app_theme.dart';
 import 'package:template_app/features/episode_detail/domain/entities/episode_detail.dart';
 
 class EpisodeDetailContent extends StatelessWidget {
@@ -92,7 +93,7 @@ class EpisodeDetailContent extends StatelessWidget {
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFF6B35),
+                        color: AppColors.primary,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
@@ -120,7 +121,7 @@ class EpisodeDetailContent extends StatelessWidget {
                 // Rating and info
                 Row(
                   children: [
-                    const Icon(Icons.star, color: Color(0xFFFFD700), size: 24),
+                    const Icon(Icons.star, color: AppColors.gold, size: 24),
                     const SizedBox(width: 4),
                     Text(
                       episodeDetail.imdbRating,
@@ -146,10 +147,10 @@ class EpisodeDetailContent extends StatelessWidget {
                   children: episodeDetail.genre.map((genre) {
                     return Chip(
                       label: Text(genre),
-                      backgroundColor: const Color(0xFF2D2D44),
+                      backgroundColor: AppColors.surfaceVariant,
                       labelStyle: const TextStyle(
                         fontSize: 12,
-                        color: Color(0xFF00D9FF),
+                        color: AppColors.accent,
                       ),
                     );
                   }).toList(),
@@ -235,7 +236,7 @@ class EpisodeDetailContent extends StatelessWidget {
         const SizedBox(height: 16),
         Row(
           children: [
-            Icon(icon, size: 20, color: const Color(0xFF00D9FF)),
+            Icon(icon, size: 20, color: AppColors.accent),
             const SizedBox(width: 8),
             Text(title, style: Theme.of(context).textTheme.titleLarge),
           ],
