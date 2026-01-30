@@ -41,3 +41,12 @@ flutter:
     - .env
     - .env.dev
     - .env.prod
+  
+  # Fonts
+  fonts:
+    - family: Futurama
+      fonts:
+        - asset: assets/fonts/futurama-font.ttf
+    - family: FuturamaTitle
+      fonts:
+        - asset: assets/fonts/futurama-title.ttf

@@ -32,8 +32,12 @@ class AppColors {
 
 /// App theme configuration
 class AppTheme {
+  static const String fontFamily = 'Futurama';
+  static const String titleFontFamily = 'FuturamaTitle';
+
   static ThemeData get theme {
     return ThemeData(
+      fontFamily: fontFamily,
       colorScheme: ColorScheme.fromSeed(
         seedColor: AppColors.primary,
         primary: AppColors.primary,
@@ -48,6 +52,12 @@ class AppTheme {
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.surface,
         elevation: 0,
+        titleTextStyle: TextStyle(
+          fontFamily: titleFontFamily,
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: AppColors.textPrimary,
+        ),
       ),
       cardTheme: CardThemeData(
         color: AppColors.surface,
@@ -56,8 +66,28 @@ class AppTheme {
       ),
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.surfaceVariant,
-        labelStyle: const TextStyle(color: AppColors.accent),
+        labelStyle: const TextStyle(
+          color: AppColors.accent,
+          fontFamily: fontFamily,
+        ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      ),
+      textTheme: const TextTheme(
+        displayLarge: TextStyle(fontFamily: titleFontFamily),
+        displayMedium: TextStyle(fontFamily: titleFontFamily),
+        displaySmall: TextStyle(fontFamily: titleFontFamily),
+        headlineLarge: TextStyle(fontFamily: titleFontFamily),
+        headlineMedium: TextStyle(fontFamily: titleFontFamily),
+        headlineSmall: TextStyle(fontFamily: titleFontFamily),
+        titleLarge: TextStyle(fontFamily: titleFontFamily),
+        titleMedium: TextStyle(fontFamily: titleFontFamily),
+        titleSmall: TextStyle(fontFamily: titleFontFamily),
+        bodyLarge: TextStyle(fontFamily: fontFamily),
+        bodyMedium: TextStyle(fontFamily: fontFamily),
+        bodySmall: TextStyle(fontFamily: fontFamily),
+        labelLarge: TextStyle(fontFamily: titleFontFamily),
+        labelMedium: TextStyle(fontFamily: fontFamily),
+        labelSmall: TextStyle(fontFamily: fontFamily),
       ),
       useMaterial3: true,
     );

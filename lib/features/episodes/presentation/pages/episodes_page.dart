@@ -15,9 +15,13 @@ class EpisodesPage extends StatefulWidget {
   State<EpisodesPage> createState() => _EpisodesPageState();
 }
 
-class _EpisodesPageState extends State<EpisodesPage> {
+class _EpisodesPageState extends State<EpisodesPage>
+    with AutomaticKeepAliveClientMixin {
   late final EpisodesStore _store;
   late final ScrollController _scrollController;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -25,7 +29,11 @@ class _EpisodesPageState extends State<EpisodesPage> {
     _store = getIt<EpisodesStore>();
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
-    _store.loadSeasons();
+
+    // Only load if data is not already loaded
+    if (_store.seasons.isEmpty && !_store.isLoading) {
+      _store.loadSeasons();
+    }
   }
 
   void _onScroll() {
@@ -43,6 +51,7 @@ class _EpisodesPageState extends State<EpisodesPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context); // Required for AutomaticKeepAliveClientMixin
     return Scaffold(
       body: Observer(
         builder: (context) {
