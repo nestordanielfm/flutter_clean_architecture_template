@@ -6,6 +6,11 @@ import 'package:template_app/features/detail/data/repositories/pokemon_detail_re
 import 'package:template_app/features/detail/domain/repositories/pokemon_detail_repository.dart';
 import 'package:template_app/features/detail/domain/usecases/get_pokemon_detail_usecase.dart';
 import 'package:template_app/features/detail/presentation/store/detail_store.dart';
+import 'package:template_app/features/episodes/data/datasources/episodes_api.dart';
+import 'package:template_app/features/episodes/data/repositories/episodes_repository_impl.dart';
+import 'package:template_app/features/episodes/domain/repositories/episodes_repository.dart';
+import 'package:template_app/features/episodes/domain/usecases/get_seasons_usecase.dart';
+import 'package:template_app/features/episodes/presentation/store/episodes_store.dart';
 import 'package:template_app/features/home/data/datasources/pokemon_api.dart';
 import 'package:template_app/features/home/data/repositories/pokemon_repository_impl.dart';
 import 'package:template_app/features/home/domain/repositories/pokemon_repository.dart';
@@ -23,6 +28,18 @@ void configureDependencies() {
   // Core - Dio Client
   getIt.registerLazySingleton<DioClient>(() => DioClient());
   getIt.registerLazySingleton<Dio>(() => getIt<DioClient>().dio);
+
+  // Episodes feature
+  getIt.registerLazySingleton<EpisodesApi>(() => EpisodesApi(getIt<Dio>()));
+  getIt.registerLazySingleton<EpisodesRepository>(
+    () => EpisodesRepositoryImpl(getIt<EpisodesApi>()),
+  );
+  getIt.registerLazySingleton<GetSeasonsUseCase>(
+    () => GetSeasonsUseCase(getIt<EpisodesRepository>()),
+  );
+  getIt.registerFactory<EpisodesStore>(
+    () => EpisodesStore(getIt<GetSeasonsUseCase>()),
+  );
 
   // Login feature
   getIt.registerLazySingleton<AuthApi>(() => AuthApi(getIt<Dio>()));
