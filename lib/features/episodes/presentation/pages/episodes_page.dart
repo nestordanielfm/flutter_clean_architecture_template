@@ -57,9 +57,15 @@ class _EpisodesPageState extends State<EpisodesPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  const Icon(
+                    Icons.error_outline,
+                    size: 64,
+                    color: Color(0xFFFF6B35),
+                  ),
+                  const SizedBox(height: 16),
                   Text(
                     _store.failure?.message ?? 'Error loading episodes',
-                    style: const TextStyle(color: Colors.red),
+                    style: const TextStyle(color: Color(0xFFFF6B35)),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 16),

@@ -29,6 +29,8 @@ class EpisodeListItem extends StatelessWidget {
         leading: Hero(
           tag: 'episode-$season-${episode.number}',
           child: CircleAvatar(
+            backgroundColor: const Color(0xFF00D9FF),
+            foregroundColor: Colors.black,
             child: Text(
               '${episode.number}',
               style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
@@ -46,7 +48,7 @@ class EpisodeListItem extends StatelessWidget {
             color: Theme.of(context).textTheme.bodySmall?.color,
           ),
         ),
-        trailing: const Icon(Icons.chevron_right),
+        trailing: const Icon(Icons.chevron_right, color: Color(0xFFFF6B35)),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       ),
     );
