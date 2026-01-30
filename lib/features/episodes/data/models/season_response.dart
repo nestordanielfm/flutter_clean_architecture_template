@@ -9,10 +9,7 @@ class SeasonResponse {
   final int id;
   final List<EpisodeResponse> episodes;
 
-  SeasonResponse({
-    required this.id,
-    required this.episodes,
-  });
+  SeasonResponse({required this.id, required this.episodes});
 
   factory SeasonResponse.fromJson(Map<String, dynamic> json) =>
       _$SeasonResponseFromJson(json);
@@ -20,9 +17,10 @@ class SeasonResponse {
   Map<String, dynamic> toJson() => _$SeasonResponseToJson(this);
 
   Season toEntity() {
-    return Season(
-      id: id,
-      episodes: episodes.map((e) => e.toEntity()).toList(),
-    );
+    // Sort episodes by episode number
+    final sortedEpisodes = episodes.map((e) => e.toEntity()).toList()
+      ..sort((a, b) => a.number.compareTo(b.number));
+
+    return Season(id: id, episodes: sortedEpisodes);
   }
 }
