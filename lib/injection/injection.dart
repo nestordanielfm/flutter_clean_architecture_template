@@ -2,6 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:template_app/core/config/environment.dart';
 import 'package:template_app/core/network/dio_client.dart';
+import 'package:template_app/features/characters/data/datasources/characters_api.dart';
+import 'package:template_app/features/characters/data/repositories/characters_repository_impl.dart';
+import 'package:template_app/features/characters/domain/repositories/characters_repository.dart';
+import 'package:template_app/features/characters/domain/usecases/get_characters_usecase.dart';
+import 'package:template_app/features/characters/presentation/store/characters_store.dart';
 import 'package:template_app/features/episode_detail/data/datasources/omdb_api.dart';
 import 'package:template_app/features/episode_detail/data/repositories/episode_detail_repository_impl.dart';
 import 'package:template_app/features/episode_detail/domain/repositories/episode_detail_repository.dart';
@@ -46,5 +51,20 @@ void configureDependencies() {
   );
   getIt.registerFactory<EpisodeDetailStore>(
     () => EpisodeDetailStore(getIt<GetEpisodeDetailUseCase>()),
+  );
+
+  // Characters feature
+  getIt.registerLazySingleton<CharactersApi>(
+    () =>
+        CharactersApi(getIt<Dio>(), baseUrl: EnvironmentConfig.futuramaApiUrl),
+  );
+  getIt.registerLazySingleton<CharactersRepository>(
+    () => CharactersRepositoryImpl(getIt<CharactersApi>()),
+  );
+  getIt.registerLazySingleton<GetCharactersUseCase>(
+    () => GetCharactersUseCase(getIt<CharactersRepository>()),
+  );
+  getIt.registerFactory<CharactersStore>(
+    () => CharactersStore(getIt<GetCharactersUseCase>()),
   );
 }
