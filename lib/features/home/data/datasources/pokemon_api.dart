@@ -9,5 +9,8 @@ abstract class PokemonApi {
   factory PokemonApi(Dio dio, {String? baseUrl}) = _PokemonApi;
 
   @GET('/pokemon')
-  Future<PokemonListResponse> getPokemonList(@Query('limit') int limit);
+  Future<PokemonListResponse> getPokemonList(
+    @Query('limit') int limit,
+    @Query('offset') int offset,
+  );
 }

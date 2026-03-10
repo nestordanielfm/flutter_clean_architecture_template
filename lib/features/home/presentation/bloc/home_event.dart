@@ -11,6 +11,10 @@ class LoadPokemonList extends HomeEvent {
   const LoadPokemonList();
 }
 
+class LoadMorePokemon extends HomeEvent {
+  const LoadMorePokemon();
+}
+
 class LogoutRequested extends HomeEvent {
   const LogoutRequested();
 }

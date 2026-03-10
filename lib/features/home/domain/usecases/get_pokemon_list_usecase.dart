@@ -16,15 +16,19 @@ class GetPokemonListUseCase
 
   @override
   Future<Either<Failure, List<Pokemon>>> call(PokemonListParams params) async {
-    return await repository.getPokemonList(limit: params.limit);
+    return await repository.getPokemonList(
+      limit: params.limit,
+      offset: params.offset,
+    );
   }
 }
 
 class PokemonListParams extends Equatable {
   final int limit;
+  final int offset;
 
-  const PokemonListParams({this.limit = 20});
+  const PokemonListParams({this.limit = 20, this.offset = 0});
 
   @override
-  List<Object> get props => [limit];
+  List<Object> get props => [limit, offset];
 }

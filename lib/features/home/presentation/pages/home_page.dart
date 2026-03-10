@@ -8,13 +8,49 @@ import 'package:template_app/features/home/presentation/bloc/home_state.dart';
 import 'package:template_app/injection/injection.dart';
 
 @RoutePage()
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final ScrollController _scrollController = ScrollController();
+  late final HomeBloc _homeBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _homeBloc = getIt<HomeBloc>()..add(const LoadPokemonList());
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    _homeBloc.close();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_isBottom) {
+      _homeBloc.add(const LoadMorePokemon());
+    }
+  }
+
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    return currentScroll >= (maxScroll * 0.9);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<HomeBloc>()..add(const LoadPokemonList()),
+    return BlocProvider.value(
+      value: _homeBloc,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Pokémon List'),
@@ -33,7 +69,8 @@ class HomePage extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             }
 
-            if (state.isError) {
+            if (state.isError &&
+                (state.pokemonList == null || state.pokemonList!.isEmpty)) {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -54,10 +91,20 @@ class HomePage extends StatelessWidget {
               );
             }
 
-            if (state.isSuccess && state.pokemonList != null) {
+            if (state.isSuccess) {
               return ListView.builder(
-                itemCount: state.pokemonList!.length,
+                controller: _scrollController,
+                itemCount: state.hasReachedMax
+                    ? state.pokemonList!.length
+                    : state.pokemonList!.length + 1,
                 itemBuilder: (context, index) {
+                  if (index >= state.pokemonList!.length) {
+                    return const Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  }
+
                   final pokemon = state.pokemonList![index];
                   return ListTile(
                     leading: Image.network(

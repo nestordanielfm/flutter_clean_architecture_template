@@ -13,9 +13,10 @@ class PokemonRepositoryImpl implements PokemonRepository {
   @override
   Future<Either<Failure, List<Pokemon>>> getPokemonList({
     int limit = 20,
+    int offset = 0,
   }) async {
     try {
-      final response = await pokemonApi.getPokemonList(limit);
+      final response = await pokemonApi.getPokemonList(limit, offset);
       final pokemonList = response.results
           .map((item) => item.toEntity())
           .toList();
