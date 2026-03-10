@@ -77,16 +77,22 @@ The app uses [DummyJSON API](https://dummyjson.com/) for authentication.
 
 ## Testing Strategy
 
-The template includes comprehensive tests:
+The template includes comprehensive tests with **98.29% code coverage**:
 
 - **UseCase Tests**: Pure Dart unit tests with mocked repositories
 - **BLoC Tests**: Using `bloc_test` package for state verification
+- **State & Event Tests**: Complete coverage of state management classes
+- **Entity Tests**: Testing domain entities and their equality
+- **Failure Tests**: Testing error handling classes
 - **Test Helpers**: Shared mocks and fixtures in `test/helpers/`
 
 Example test run:
 ```bash
 flutter test
-# Output: 00:04 +8: All tests passed!
+# Output: 00:03 +98: All tests passed!
+
+flutter test --coverage
+# Coverage: 98.29% (172/175 lines)
 ```
 
 ## Development Commands

@@ -17,4 +17,6 @@ class LoginSubmitted extends LoginEvent {
   List<Object?> get props => [username, password];
 }
 
-class LoginReset extends LoginEvent {}
+class LoginReset extends LoginEvent {
+  const LoginReset();
+}
